@@ -1,6 +1,8 @@
 <?php
   
   session_start();
+
+  require 'validation.php';
   header('X-FRAME-OPTIONS:DENY');
   function h($str){
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
@@ -9,7 +11,9 @@
   var_dump($_POST);
   echo "</pre>";
   $pageFlag = 0;
-  if(!empty($_POST['btn-confirm'])){
+  $error = validation($_POST);
+  
+  if(!empty($_POST['btn-confirm']) && empty($error)){
     $pageFlag = 1;
     
   }
@@ -37,6 +41,15 @@
         $token = $_SESSION['csrfToken'];
 
       ?>
+
+      <?php if(!empty($_POST['btn-confirm']) && !empty($error)) : ?>
+      <ul>
+        <?php foreach($error as $value) :?>
+        <li><?php echo $value ; ?></li>
+        <?php endforeach ; ?>
+      </ul>
+      <?php endif ;?>
+      
         <form method="POST" action="index.php">
           氏名
           <input type="text" name="your_name" value="<?php echo h($_POST['your_name']) ; ?>">
