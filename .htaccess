@@ -1,0 +1,5 @@
+AuthType Basic
+AuthName "IDとパスワードを入力してください"
+AuthUserFile /Users/shouhei/Desktop/php/.htpasswd
+require valid-user
+
